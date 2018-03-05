@@ -1,0 +1,295 @@
+{% extends "base.html" %}
+{% block content_header %}
+<h1>任务控制面板</h1>
+<ol style="float: right;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 12px;
+    padding: 7px 5px;
+    position: absolute;
+    top: 15px;
+    right: 10px;">
+    <button type="button" class="btn btn-success btn-flat" style="margin-top: -10px;" onclick="Clear()">清空队列</button>
+{#<button type="button" class="btn btn-success btn-flat" style="margin-top: -10px;" data-toggle="modal"#}
+{#            data-target="#job-run-modal">运行#}
+{#    </button>#}
+</ol>
+{% endblock %}
+{% block content_body %}
+<!--======next job======-->
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">未运行任务</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="box-body table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th style="width: 10px">#</th>
+                <th style="width: 30px">任务</th>
+                <th style="width: 160px">爬虫</th>
+                <th style="width: 100px">参数</th>
+                <th style="width: 40px">优先级</th>
+                <th style="width: 160px">等待</th>
+            </tr>
+            {% for job in job_status.PENDING %}
+            {% if job.job_instance %}
+            <tr>
+                <td>{{ job.job_execution_id }}</td>
+                <td><a href="/project/1/job/periodic#{{ job.job_instance_id }}">{{ job.job_instance_id }}</a></td>
+                <td>{{ job.job_instance.spider_name }}</td>
+                <td class="txt-args" data-toggle="tooltip" data-placement="right"
+                    title="{{ job.job_instance.spider_arguments }}">{{ job.job_instance.spider_arguments }}
+                </td>
+                {% if job.job_instance.priority == -1 %}
+                <td>
+                    <span class="label label-default">低</span>
+                </td>
+                {% elif job.job_instance.priority == 0 %}
+                <td>
+                    <span class="label label-info">正常</span>
+                </td>
+                {% elif job.job_instance.priority == 1 %}
+                <td>
+                    <span class="label label-warning">高</span>
+                </td>
+                {% elif job.job_instance.priority == 2 %}
+                <td>
+                    <span class="label label-danger">最高</span>
+                </td>
+                {% endif %}
+                <td>{{ timedelta(now,job.create_time) }}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+<!--======running job======-->
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">正运行任务</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="box-body table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th style="width: 10px">#</th>
+                <th style="width: 30px">任务</th>
+                <th style="width: 160px">爬虫</th>
+                <th style="width: 100px">参数</th>
+                <th style="width: 32px">优先级</th>
+                <th style="width: 40px">运行时间</th>
+                <th style="width: 120px">开始时间</th>
+                <th style="width: 40px">日志</th>
+                <th style="width: 40px">Running On</th>
+                <th style="width: 40px">动作</th>
+            </tr>
+            {% for job in job_status.RUNNING %}
+            {% if job.job_instance %}
+            <tr>
+                <td>{{ job.job_execution_id }}</td>
+                <td><a href="/project/1/job/periodic#{{ job.job_instance_id }}">{{ job.job_instance_id }}</a></td>
+                <td>{{ job.job_instance.spider_name }}</td>
+                <td class="txt-args" data-toggle="tooltip" data-placement="right"
+                    title="{{ job.job_instance.spider_arguments }}">{{ job.job_instance.spider_arguments }}
+                </td>
+                {% if job.job_instance.priority == -1 %}
+                <td>
+                    <span class="label label-default">低</span>
+                </td>
+                {% elif job.job_instance.priority == 0 %}
+                <td>
+                    <span class="label label-info">正常</span>
+                </td>
+                {% elif job.job_instance.priority == 1 %}
+                <td>
+                    <span class="label label-warning">高</span>
+                </td>
+                {% elif job.job_instance.priority == 2 %}
+                <td>
+                    <span class="label label-danger">最高</span>
+                </td>
+                {% endif %}
+                <td>{{ timedelta(now,job.start_time) }}</td>
+                <td>{{ job.start_time }}</td>
+                <td><a href="/project/{{ project.id }}/jobexecs/{{ job.job_execution_id }}/log" target="_blank"
+                       data-toggle="tooltip" data-placement="top" title="{{ job.service_job_execution_id }}">日志</a>
+                </td>
+                <td style="font-size: 10px;">{{ job.running_on }}</td>
+                <td>
+                    <a href="/project/{{ project.id }}/jobexecs/{{ job.job_execution_id }}/stop"><span
+                            class="label label-danger">停止</span></a>
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+<!--======completed job======-->
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">已完成任务</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="box-body table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th style="width: 10px">#</th>
+                <th style="width: 30px">任务</th>
+                <th style="width: 160px">爬虫</th>
+                <th style="width: 100px">参数</th>
+                <th style="width: 20px">优先级</th>
+                <th style="width: 40px">运行时间</th>
+                <th style="width: 120px">开始时间</th>
+                <th style="width: 10px">日志</th>
+                <th style="width: 10px">状态</th>
+            </tr>
+            {% for job in job_status.COMPLETED %}
+            {% if job.job_instance %}
+            <tr>
+                <td>{{ job.job_execution_id }}</td>
+                <td><a href="/project/1/job/periodic#{{ job.job_instance_id }}">{{ job.job_instance_id }}</a></td>
+                <td>{{ job.job_instance.spider_name }}</td>
+                <td class="txt-args" data-toggle="tooltip" data-placement="right"
+                    title="{{ job.job_instance.spider_arguments }}">{{ job.job_instance.spider_arguments }}
+                </td>
+                {% if job.job_instance.priority == -1 %}
+                <td>
+                    <span class="label label-default">低</span>
+                </td>
+                {% elif job.job_instance.priority == 0 %}
+                <td>
+                    <span class="label label-info">正常</span>
+                </td>
+                {% elif job.job_instance.priority == 1 %}
+                <td>
+                    <span class="label label-warning">高</span>
+                </td>
+                {% elif job.job_instance.priority == 2 %}
+                <td>
+                    <span class="label label-danger">最高</span>
+                </td>
+                {% endif %}
+                <td>{{ timedelta(job.end_time,job.start_time) }}</td>
+                <td>{{ job.start_time }}</td>
+                <td><a href="/project/{{ project.id }}/jobexecs/{{ job.job_execution_id }}/log" target="_blank"
+                       data-toggle="tooltip" data-placement="top" title="{{ job.service_job_execution_id }}">日志</a>
+                </td>
+                {% if job.running_status == 2 %}
+                <td>
+                    <span class="label label-success">完成</span>
+                </td>
+                {% else %}
+                <td>
+                    <span class="label label-danger">拒绝</span>
+                </td>
+                {% endif %}
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </table>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">提示</h4>
+            </div>
+            <div class="modal-body">
+                <div id="alert" style="text-align: center"></div>
+            </div>
+            <div class="modal-footer">
+                 <button type="button" class="btn btn-default"  onclick="close1()">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+{#<div class="modal fade" role="dialog" id="job-run-modal">#}
+{#    <div class="modal-dialog" role="document">#}
+{#        <div class="modal-content">#}
+{#            <form action="/project/{{ project.id }}/job/add" method="post">#}
+{#                <div class="modal-header">#}
+{#                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+{#                        <span aria-hidden="true">×</span></button>#}
+{#                    <h4 class="modal-title">创建任务</h4>#}
+{#                </div>#}
+{#                <div class="modal-body">#}
+{#                    <div class="form-group">#}
+{#                        <label>爬虫</label>#}
+{#                        <select class="form-control" name="spider_name">#}
+{#                            {% for spider in spider_list %}#}
+{#                            <option value="{{ spider.spider_name }}">{{ spider.spider_name }}</option>#}
+{#                            {% endfor %}#}
+{#                        </select>#}
+{#                    </div>#}
+{#                    <div class="form-group">#}
+{#                        <label>优先级</label>#}
+{#                        <select class="form-control" name="priority">#}
+{#                            <option label="低" value="number:-1">低</option>#}
+{#                            <option label="正常" value="0" selected="selected">正常</option>#}
+{#                            <option label="高" value="1">高</option>#}
+{#                            <option label="最高" value="2">最高</option>#}
+{#                        </select>#}
+{#                    </div>#}
+{#                    <div class="form-group">#}
+{#                        <label>参数</label>#}
+{#                        <input type="text" name="spider_arguments" class="form-control" placeholder="foo=1,bar=2">#}
+{#                    </div>#}
+{#                   <div class="form-group">#}
+{#                                <label>起始URL</label>#}
+{#                                <input type="text" name="spider_url" class="form-control">#}
+{#                   </div>#}
+{#                    <div class="form-group">#}
+{#                                <label>模板URL-新闻博客类爬虫选填</label>#}
+{#                                <input type="text" name="spider_models" class="form-control">#}
+{#                                <label>备注:多模板用分号隔开</label>#}
+{#                    </div>#}
+{#                    <input type="hidden" name="run_type" value="onetime">#}
+{#                </div>#}
+{#                <div class="modal-footer">#}
+{#                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>#}
+{#                    <button type="submit" class="btn btn-primary">创建</button>#}
+{#                </div>#}
+{#            </form>#}
+{#        </div>#}
+{#        <!-- /.modal-content -->#}
+{#    </div>#}
+{#    <!-- /.modal-dialog -->#}
+{#</div>#}
+{#<!-- /.modal -->#}
+<script type="text/javascript">
+      function Clear(){
+          if(confirm("是否清空所有队列？") == true){
+              $.ajax({
+                     type: "POST",
+                     url: "/clear",
+                     success: function (result) {
+                         $("#myModal").modal("show");
+                         document.getElementById("alert").innerHTML=result;
+                     }
+              });
+          }
+      }
+
+      function close1(){
+          $("#myModal").modal("hide");
+          window.location.reload();
+      }
+</script>
+{% endblock %}

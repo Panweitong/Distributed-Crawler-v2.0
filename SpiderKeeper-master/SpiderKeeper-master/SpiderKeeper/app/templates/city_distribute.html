@@ -1,0 +1,1033 @@
+{% extends "base.html" %}
+{% block content_body %}
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+       <div class="box">
+           <div class="box-header">
+               <h3 class="box-title">
+                  一键生成报告
+              </h3>
+           </div>
+           <div class="box-body">
+               <div class="form-group" style="text-align: center;display: none">
+                   <label>&nbsp;爬&nbsp;&nbsp;虫&nbsp;</label>
+                   <select class="form-control" name="spider_name" id="spider_name" style="width:35%;display:inline;margin:0 0 0 29px;">
+                   {% for spider in spider_list %}{
+                       {% if(spider.spider_name=="liepin")%}
+                          <option value="{{ spider.spider_name }}">{{ spider.spider_name }}</option>
+                       {% endif %}
+                   {% endfor %}
+                   </select>
+               </div>
+               <div class="form-group" style="text-align: center;display:none">
+                   <label style="margin: 0 -12px 0 40px;">起始URL</label>
+                   <input type="text" name="spider_url" id="spider_url" class="form-control" style="width:22%;display:inline;margin:0 0 0 29px;">
+               </div>
+               <div class="form-group" style="text-align: center;">
+                   <label>地区</label>
+                   <select class="form-control" id="area" name="area" style="width:10%;display:inline;margin:0 0 0 29px;">
+                       <option label="成都" value="280020">成都</option>
+                       <option label="武汉" value="170020" >武汉</option>
+                       <option label="北京" value="010">北京</option>
+                       <option label="上海" value="020">上海</option>
+                       <option label="广州" value="050020">广州</option>
+                       <option label="深圳" value="050090">深圳</option>
+                       <option label="天津" value="030">天津</option>
+                       <option label="苏州" value="060080">苏州</option>
+                       <option label="重庆" value="040">重庆</option>
+                       <option label="南京" value="060020">南京</option>
+                       <option label="杭州" value="070020">杭州</option>
+                       <option label="大连" value="210040">大连</option>
+                       <option label="珠海" value="050140">珠海</option>
+                       <option label="全国" value="0" selected="selected">全国</option>
+                   </select>
+
+                   <label style="margin: 0 0 0 40px;">岗位/行业</label>
+                   <input type="text" name="key"  id="key" class="form-control" style="width:30%;display:inline;margin:0 0 0 29px;">
+                   <button type="submit" class="btn btn-primary" style="margin:0 0 0 35px" onclick="add({{ project.id }})">生成报告</button>
+
+                   <label style="margin: 0 0 0 40px;display: none;">优先级</label>
+                   <select class="form-control" id="priority" name="priority" style="width:20%;display:inline;margin:0 0 0 29px;display: none;">
+                       <option label="低" value="-1">低</option>
+                       <option label="正常" value="0" selected="selected">正常</option>
+                       <option label="高" value="1">高</option>
+                       <option label="最高" value="2">最高</option>
+                   </select>
+               </div>
+               <div class="form-group" style="text-align: center;display: none">
+                   <label>&nbsp;参&nbsp;&nbsp;数&nbsp;</label>
+                   <input type="text" name="spider_arguments" id="spider_arguments" class="form-control" placeholder="foo=1,bar=2" style="width:35%;display:inline;margin:0 0 0 29px;">
+               </div>
+               <div class="form-group" style="text-align: center;display: none;">
+                    <label>模板URL-新闻博客类爬虫选填</label>
+                    <input type="text" name="spider_models" id="spider_models" class="form-control" style="width:35%;display:inline;margin:0 0 0 29px;">
+                    <label>备注:多模板用分号隔开</label>
+               </div>
+               <input type="hidden" name="run_type" value="onetime" id="run_type" style="width:35%;display:inline;margin:0 0 0 29px;">
+           </div>
+       </div>
+<div class="box" id="box" style="display:none;">
+    <div class="box-header">
+        <h3 class="box-title">
+                  报告
+        </h3>
+    </div>
+    <div class="box-body">
+        <div id="main" style="width:100%;height:75px;display:none;"></div>
+        <div id="main1" style="width:550px;height:400px;display:none;"></div>
+        <div id="main2" style="width: 550px;height:400px;margin:-399px 0 0 622px;display:none;"></div>
+        <div id="main3" style="width: 550px;height:400px;"></div>
+        <div id="main4" style="width: 550px;height:400px;margin:-399px 0 0 622px;"></div>
+        <div id="main5" style="width: 550px;height:420px;"></div>
+        <div id="main6" style="width: 550px;height:420px;margin:-421px 0 0 622px;"></div>
+        <div id="main7" style="width: 550px;height:420px;"></div>
+        <div style="width: 550px;height:420px;margin:-399px 0 0 622px;"><img id="main8" src="http://127.0.0.1:5000/image/dg" style="width: 590px;height: 373px;"></div>
+    </div>
+</div>
+<div id="preloader_4" style="display:none">
+    <div class="box5">
+        <div class="box1"></div>
+        <div class="box2"></div>
+        <div class="box3"></div>
+    </div>
+    <span id="number1" style="margin:-60px 0 0 151px;z-index: 3;position:absolute;font-size:18px;"></span><br>
+    <span style="font-size:15px;width:150px;margin: 0 0 0 -3px;color:#333"><b>正在拼命采集中，请勿其他操作，请耐心等待....</b></span>
+</div>
+<div id="preloader_5" style="display:none">
+    <div class="box5">
+        <div class="box1"></div>
+        <div class="box2"></div>
+        <div class="box3"></div>
+    </div>
+    <span style="font-size:15px;width:150px;margin: 0 0 0 -3px;color:#333"><b>采集完成，正在拼命分析中，请稍候.....</b></span>
+</div>
+    <style>
+       /*旋转动画*/
+    @keyframes moveover {
+        0%   {transform:rotate(0deg);}
+        100% {transform:rotate(360deg);}
+    }
+    .box5{
+        position:relative;
+        width:100px;
+        height:100px;
+        /*整体旋转*/
+        animation:moveover 3s linear infinite;
+        margin: 0 0 0 113px;
+    }
+    .box1{
+        position:absolute;
+        width: 50px;
+        height: 100px;
+        border-radius:50px 0 0 50px;
+        /* 起始最深颜色为 #999，过渡到中间颜色为 #d0cfcf */
+        background: linear-gradient(#999, #d0cfcf);
+        background-color: red;
+        z-index:3;
+    }
+    .box2{
+        position:absolute;
+        width: 50px;
+        height: 100px;
+        border-radius:0 50px 50px 0;
+        left:50%;
+        /* 过渡到中间颜色为 #d0cfcf 最终末尾颜色为 #eee */
+        background: linear-gradient(#eee,#d0cfcf);
+        z-index:2;
+    }
+    .box3{
+        position:absolute;
+        width:92px;
+        height:92px;
+        top:4px;
+        left:4px;
+        border-radius:50%;
+        background-color: #fff;
+        z-index:3;
+    }
+.mask {color:#C7EDCC;background-color:#f4f4f4;position:absolute;top:0px;left:0px;width:100%;height:910px;opacity: 0.6;filter: "alpha(opacity=60)";filter: alpha(Opacity=60);}
+</style>
+<script type="text/javascript">
+
+    window.onload = function () {
+         $('#preloader_4').hide();
+         $('#preloader_5').hide();
+    };
+
+   //数据加载动画显示
+    function show(){
+        //添加并显示遮罩层
+        $("<div id='mask'></div>").addClass("mask").click(function() {}) .appendTo("body").fadeIn(0);
+        document.getElementById("mask").style.display = "block";
+        var windowWidth = document.documentElement.clientWidth;
+        var windowHeight = document.documentElement.clientHeight;
+        var popupHeight = $("#preloader_5").height();
+        var popupWidth = $("#preloader_5").width();
+        $("#preloader_5").css({
+            "position": "absolute",
+            "top": "286px",
+            "left": "671px",
+            "z-index": "1"
+        });
+        document.getElementById("preloader_5").style.display="block";
+        $("#preloader_5").show();
+    }
+
+    //数据加载动画显示
+    function show1(){
+        //添加并显示遮罩层
+        $("<div id='mask1'></div>").addClass("mask").click(function() {}) .appendTo("body").fadeIn(0);
+        document.getElementById("mask1").style.display = "block";
+        var windowWidth = document.documentElement.clientWidth;
+        var windowHeight = document.documentElement.clientHeight;
+        var popupHeight = $("#preloader_4").height();
+        var popupWidth = $("#preloader_4").width();
+        $("#preloader_4").css({
+            "position": "absolute",
+            "top": "286px",
+            "left": "671px",
+            "z-index": "1"
+        });
+        document.getElementById("preloader_4").style.display="block";
+        $("#preloader_4").show();
+    }
+    //数据加载动画隐藏
+    function hide(){
+        $("#mask1").remove();
+        $("#preloader_4").hide();
+    }
+
+    //数据加载动画隐藏
+    function hide1(){
+        $("#mask").remove();
+        $("#preloader_5").hide();
+    }
+
+    function magic_number(value) {
+        var num1 = $("#number1");
+        num1.animate({count: value}, {
+                duration: 500,
+                step: function () {
+                    num1.text(String(parseInt(this.count)));
+                }
+            });
+}
+
+
+            // 基于准备好的dom，初始化echarts实例
+var myChart1 = echarts.init(document.getElementById('main1'),'shine');
+var myChart2 = echarts.init(document.getElementById('main2'),'shine');
+var myChart3 = echarts.init(document.getElementById('main3'),'shine');
+var myChart4 = echarts.init(document.getElementById('main4'),'shine');
+var myChart5 = echarts.init(document.getElementById('main5'),'shine');
+var myChart6 = echarts.init(document.getElementById('main6'),'shine');
+var myChart7 = echarts.init(document.getElementById('main7'),'shine');
+{#title = '岗位城市分布 - 条形图';#}
+
+function add(project){
+     show1();
+     $.ajax({
+        type: "POST",
+        url: "/" + project + "/job/add",
+        async: true,
+        data:{
+            spider_name:$("#spider_name").val(),
+            spider_url:$("#spider_url").val(),
+            spider_arguments:$("#spider_arguments").val(),
+            priority:$("#priority").val(),
+            run_type:$("#run_type").val(),
+            spider_models:$("#spider_models").val(),
+            key:$("#key").val(),
+            area:$("#area").val()
+        } ,
+        success: function (result) {
+              setTimeout(bb,20000);
+        }
+     });
+}
+
+    function bb(){
+        $.ajax({
+        type: "POST",
+        url: "/count",
+        dataType:"json",
+        success: function (result) {
+            if(result.isStop==1){
+                hide();
+                show();
+                aa();
+                return;
+            }
+            else{
+                if(parseInt(result.item_scraped_count)>=1000){
+                    $("#number1").css({
+                        "margin": "-60px 0 0 143px"
+                    });
+                }
+                else if(parseInt(result.item_scraped_count)>=100&&parseInt(result.item_scraped_count)<1000){
+                    $("#number1").css({
+                        "margin": "-60px 0 0 147px"
+                    });
+                }
+                else{
+                    $("#number1").css({
+                        "margin": "-60px 0 0 151px"
+                    });
+                }
+                magic_number(result.item_scraped_count);
+                setTimeout(bb, 10000);
+            }
+        }
+     });
+    }
+
+function aa(){
+      document.getElementById("box").style.display="block";
+      if($("#area").val().toString()=="0"){
+            document.getElementById("main1").style.display="block";
+            document.getElementById("main2").style.display="block";
+            document.getElementById("main").style.display="none";
+            $.ajax({
+                type: "POST",
+                url: "/city/distribute",
+                dataType: "json",
+                success: function (result) {
+                    var keys = new Array();
+                    var val = new Array();
+                    for (var key in result) {
+                         keys.push(key);
+                    }
+                    for(var value in result){
+                         val.push(result[value]);
+                    }
+                    a(keys,val);
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "/city/money",
+                dataType: "json",
+                success: function (result) {
+                    var keys = new Array();
+                    var val = new Array();
+                    for (var key in result) {
+                          keys.push(key);
+                    }
+                    for(var value in result){
+                          val.push(result[value]);
+                    }
+                    b(keys,val);
+                }
+            });
+      }
+
+      else{
+           document.getElementById("main").style.display="block";
+           document.getElementById("main1").style.display="none";
+           document.getElementById("main2").style.display="none";
+           $.ajax({
+                type: "POST",
+                url: "/avg/money",
+                success: function (result) {
+                    var select = document.getElementById("area");
+                    var options = select.options;
+                    var index = select.selectedIndex;
+                    var selectedText = options[index].text;
+                    var str="";
+                    str+="<label style='font-size:20px;margin:0 0 0 330px;'>"+
+                         "<label>当前<span style='color: #520a0b;font-size: 30px;'>"+ selectedText +"</span>该岗位/行业的平均工资约为:</label>"+
+                         "<p style='font-size:50px;margin: -62px 0 0 355px;color: red;'>"+ result +"</p>"+
+                         "<p style='margin: -46px 0 0 504px;'>元</p></label>";
+                    $("#main").append(str);
+
+                }
+           });
+      }
+
+      $.ajax({
+          type: "POST",
+          url: "/company/type",
+          dataType: "json",
+          success: function (result) {
+              var keys = new Array();
+              var val = new Array();
+              for (var key in result) {
+                  keys.push(key);
+              }
+              for(var value in result){
+                  val.push(result[value]);
+              }
+              c(keys,val);
+          }
+      });
+
+      $.ajax({
+          type: "POST",
+          url: "/education/type",
+          dataType: "json",
+          success: function (result) {
+              var keys = new Array();
+              var val = new Array();
+              for (var key in result) {
+                  keys.push(key);
+              }
+              for(var value in result){
+                  val.push(result[value]);
+              }
+              d(keys,val);
+          }
+      });
+
+      $.ajax({
+          type: "POST",
+          url: "/education/money",
+          dataType: "json",
+          success: function (result) {
+              var keys = new Array();
+              var val = new Array();
+              for (var key in result) {
+                  keys.push(key);
+              }
+              for(var value in result){
+                  val.push(result[value]);
+              }
+              e(keys,val);
+          }
+      });
+
+      $.ajax({
+          type: "POST",
+          url: "/job/ability",
+          dataType: "json",
+          success: function (result) {
+              var keys1 = new Array();
+              var keys2 = new Array();
+              var val1 = new Array();
+              var val2 = new Array();
+              for (var key1 in result.data1) {
+                  keys1.push(key1);
+              }
+              for(var value1 in result.data1){
+                  val1.push(result.data1[value1]);
+              }
+              for (var key2 in result.data2) {
+                  keys2.push(key2);
+              }
+              for(var value2 in result.data2){
+                  val2.push(result.data2[value2]);
+              }
+              f(keys1,val1);
+              g(keys2,val2);
+          }
+      });
+
+      $.ajax({
+          type: "POST",
+          url: "/word/cloud",
+          success: function (result) {
+              $("#main8").attr('src', "/image/dg?t="+Math.random());
+          }
+      });
+     hide1();
+}
+
+function a(keys,val){
+      option = {
+                title: {
+                    text: '岗位城市分布',
+                    subtext: '数据来自猎聘网',
+                    x: 'center'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                legend: {
+                    data: ['2011年']
+                },
+                grid: {
+                    left: '3%',
+                    right: '2%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    name: '职位数量（个）',
+                    type: 'value',
+                    boundaryGap: [0, 0.01]
+
+                },
+                yAxis: {
+                    //type : 'value',
+                    name: '城市',
+                    type: 'category',
+                    data: keys
+                },
+                series: [
+                    {
+                        //name: '2011年',
+                        type: 'bar',
+                        data: val,
+                        barWidth: 26,
+                        itemStyle: {
+                            normal: {
+                                //好，这里就是重头戏了，定义一个list，然后根据所以取得不同的值，这样就实现了，
+                                color: function (params) {
+                                    // build a color map as your need.
+                                    var colorList = [
+                                        '#C1232B', '#B5C334', '#FCCE10', '#E87C25', '#27727B',
+                                        '#FE8463', '#9BCA63', '#FAD860', '#F3A43B', '#60C0DD',
+                                        '#D7504B', '#C6E579', '#F4E001', '#F0805A', '#26C0C0'
+                                    ];
+                                    return colorList[params.dataIndex]
+                                },
+                                //以下为是否显示，显示位置和显示格式的设置了
+                                label: {
+                                    show: true,
+                                    position: 'right',
+//                             formatter: '{c}'
+                                    formatter: '{c}个'
+                                }
+                            }
+                        }
+                    }
+
+                ]
+            };
+
+       // 使用刚指定的配置项和数据显示图表。
+      myChart1.setOption(option);
+
+}
+
+function b(keys,val){
+   option = {
+    title: {
+        text: '全国各市平均薪酬',
+        subtext: '单位(元／月)',
+        left: 'center'
+    },
+    color: ['#db081a'],
+    tooltip : {
+        trigger: 'axis',
+        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+        }
+    },
+    toolbox: {
+        show: true,
+        feature: {
+            saveAsImage: {}
+        }
+    },
+    grid: {
+        left: '3%',
+        right: '12%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis : [
+        {
+            type : 'category',
+            //设置X轴的值
+            name : '城市',
+            //设置X坐标的值
+            data : keys,
+            axisTick: {
+                alignWithLabel: true
+            }
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value',
+            //设置X轴的值
+            name : '薪酬'
+        }
+    ],
+    series : [
+        {
+            name:'薪酬',
+            type:'bar',
+            barWidth: 23,
+            itemStyle: {
+                normal: {
+                    //好，这里就是重头戏了，定义一个list，然后根据所以取得不同的值，这样就实现了，
+                    color: function (params) {
+                        // build a color map as your need.
+                        var colorList = [
+                            '#D7504B', '#C6E579', '#F4E001', '#F0805A', '#26C0C0',
+                            '#C1232B', '#B5C334', '#FCCE10', '#E87C25', '#27727B',
+                            '#FE8463', '#9BCA63', '#FAD860', '#F3A43B', '#60C0DD'
+                        ];
+                        return colorList[params.dataIndex]
+                    },
+                    //以下为是否显示，显示位置和显示格式的设置了
+                    label: {
+                        show: true,
+                        position: 'top',
+//                             formatter: '{c}'
+                        formatter: '{c}元'
+                    }
+                }
+            },
+//            label: {
+//                normal: {
+//                    show: true,
+//                    position: 'top'
+//                }
+//            },
+            //设置Y轴数据
+            data:val
+        },
+        {
+                            name:'折线',
+                            type:'line',
+                            itemStyle : {  /*设置折线颜色*/
+                                normal : {
+                                   /* color:'#c4cddc'*/
+                                }
+                            },
+                            data:val
+                        }
+    ]
+};
+
+   // 使用刚指定的配置项和数据显示图表。
+   myChart2.setOption(option);
+}
+
+
+function c(keys,val){
+   option = {
+    title: {
+        text: '企业行业分布',
+        subtext: '数据来自猎聘网',
+        x:'center'
+    },
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'shadow'
+        }
+    },
+    toolbox: {
+        show: true,
+        feature: {
+            saveAsImage: {}
+        }
+    },
+    legend: {
+        data: ['2011年']
+    },
+    grid: {
+        left: '3%',
+        right: '2%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis: {
+        name: '职位数量（个）',
+        type: 'value',
+        boundaryGap: [0, 0.01]
+
+    },
+    yAxis: {
+        //type : 'value',
+        name:'行业',
+        type: 'category',
+        axisLabel: {
+            interval: 0,
+            rotate: 15
+        },
+        data: keys
+    },
+    series: [
+        {
+            //name: '2011年',
+            type: 'bar',
+            data: val,
+            barWidth:23,
+            itemStyle: {
+                normal: {
+                    //好，这里就是重头戏了，定义一个list，然后根据所以取得不同的值，这样就实现了，
+                    color: function (params) {
+                        // build a color map as your need.
+                        var colorList = [
+                            '#D7504B', '#C6E579', '#F4E001', '#F0805A', '#26C0C0',
+                            '#C1232B', '#B5C334', '#FCCE10', '#E87C25', '#27727B',
+                            '#FE8463', '#9BCA63', '#FAD860', '#F3A43B', '#60C0DD'
+                        ];
+                        return colorList[params.dataIndex]
+                    },
+                    //以下为是否显示，显示位置和显示格式的设置了
+                    label: {
+                        show: true,
+                        position: 'right',
+//                             formatter: '{c}'
+                        formatter: '{c}个'
+                    }
+                }
+            }
+        }
+
+    ]
+
+};
+
+   // 使用刚指定的配置项和数据显示图表。
+   myChart3.setOption(option);
+}
+
+function d(keys,val){
+    option = {
+    title : {
+        text: '学历需求分布',
+        //subtext: '---',
+        x:'center'
+    },
+    tooltip : {
+        trigger: 'item',
+        formatter: "{b} : {c} ({d}%)"
+    },
+    toolbox: {
+        show: true,
+        feature: {
+            saveAsImage: {}
+        }
+    },
+    legend: {
+        orient: 'horizontal',
+        //x: 'top',
+        data: keys,
+        top:'30'
+    },
+    series : [
+        {
+            //name: '学历要求',
+            type: 'pie',
+            radius : '55%',
+            center: ['52%', '60%'],
+            label: {
+                normal: {
+                    formatter: '{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
+                    backgroundColor: '#eee',
+                    borderColor: '#aaa',
+                    borderWidth: 1,
+                    borderRadius: 1,
+                    // shadowBlur:3,
+                    // shadowOffsetX: 2,
+                    // shadowOffsetY: 2,
+                    // shadowColor: '#999',
+                    // padding: [0, 7],
+                    rich: {
+                        a: {
+                            color: '#999',
+                            lineHeight: 22,
+                            align: 'center'
+                        },
+                        // abg: {
+                        //     backgroundColor: '#333',
+                        //     width: '100%',
+                        //     align: 'right',
+                        //     height: 22,
+                        //     borderRadius: [4, 4, 0, 0]
+                        // },
+                        hr: {
+                            borderColor: '#aaa',
+                            width: '100%',
+                            borderWidth: 0.5,
+                            height: 0
+                        },
+                        b: {
+                            fontSize: 14,
+                            lineHeight: 23
+                        },
+                        per: {
+                            color: '#eee',
+                            backgroundColor: '#334455',
+                            padding: [2, 4],
+                            borderRadius: 2
+                        }
+                    }
+                }
+            },
+            data:[
+                {value:val[0], name:keys[0]},
+                {value:val[1], name:keys[1]},
+                {value:val[2], name:keys[2]},
+                {value:val[3], name:keys[3]},
+                {value:val[4], name:keys[4]}
+
+            ],
+
+            itemStyle: {
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+};
+
+// 使用刚指定的配置项和数据显示图表。
+myChart4.setOption(option);
+}
+
+function e(keys,val){
+option = {
+    title: {
+        text: '学历-薪资分布',
+        subtext: '单位(元／月)',
+         x:'center'
+    },
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'cross'
+        }
+    },
+    toolbox: {
+        show: true,
+        feature: {
+            saveAsImage: {}
+        }
+    },
+    xAxis:  {
+        type: 'category',
+        boundaryGap: false,
+        data : keys,
+        label: {
+                        show: true,
+                        position: 'top',
+//                             formatter: '{c}'
+                        formatter: '{c}元'
+                    }
+            },
+
+    yAxis: {
+        type: 'value',
+        axisLabel: {
+            formatter: '{value} '
+        },
+        axisPointer: {
+            snap: true
+        }
+    },
+    visualMap: {
+        show: false,
+        dimension: 0,
+        pieces: [{
+            lte: 6,
+            color: 'green'
+        }, {
+            gt: 6,
+            lte: 8,
+            color: 'red'
+        }, {
+            gt: 8,
+            lte: 14,
+            color: 'green'
+        }, {
+            gt: 14,
+            lte: 17,
+            color: 'red'
+        }, {
+            gt: 17,
+            color: 'green'
+        }]
+    },
+    series: [
+        {
+            name: '月薪',
+            type: 'line',
+            //smooth: true
+            data: val,
+            label: { // label选项在 ECharts 2.x 中放置于itemStyle.normal下
+                normal: {
+                    show: true, // 是否显示标签
+                    position: 'top', // 标签的位置，默认top
+                    formatter: function (params) {
+                        return params.value + '元' //params.value是yAxis值
+                    }
+                }
+
+            }
+        }
+    ]
+};
+
+// 使用刚指定的配置项和数据显示图表。
+myChart5.setOption(option);
+}
+
+function f(keys,val){
+    option = {
+    title: {
+        text: '职业技能需求指数',
+        //subtext: '数据来自猎聘网',
+        x:'center'
+    },
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'shadow'
+        }
+    },
+        toolbox: {
+          show: true,
+          feature: {
+              saveAsImage: {}
+          }
+      },
+
+    grid: {
+        left: '3%',
+        right: '2%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis: {
+        name: '数量（个）',
+        type: 'value',
+        boundaryGap: [0, 0.01]
+
+    },
+    yAxis: {
+        //type : 'value',
+        name:'技能',
+        type: 'category',
+        axisLabel: {
+            interval: 0,
+            rotate: 15
+        },
+        data: keys
+    },
+    series: [
+        {
+            //name: '2011年',
+            type: 'bar',
+            data: val,
+            barWidth:15,
+            itemStyle: {
+                normal: {
+                    //好，这里就是重头戏了，定义一个list，然后根据所以取得不同的值，这样就实现了，
+                    color: function (params) {
+                        // build a color map as your need.
+                        var colorList = [
+                            '#D7504B', '#C6E579', '#F4E001', '#F0805A', '#26C0C0',
+                            '#C1232B', '#B5C334', '#FCCE10', '#E87C25', '#27727B',
+                            '#FE8463', '#9BCA63', '#FAD860', '#F3A43B', '#60C0DD',
+                            '#1854fe', '#520a0b', '#FAD860', '#01b7b2', '#60C0DD'
+                        ];
+                        return colorList[params.dataIndex]
+                    },
+                    //以下为是否显示，显示位置和显示格式的设置了
+                    label: {
+                        show: true,
+                        position: 'right',
+//                             formatter: '{c}'
+                        formatter: '{c}'
+                    }
+                }
+            }
+        }
+
+    ]
+
+};
+
+// 使用刚指定的配置项和数据显示图表。
+myChart6.setOption(option);
+}
+
+function g(keys,val){
+  option = {
+    title: {
+        text: '职业技能价值',
+        subtext: '单位(元)',
+        x:'center'
+    },
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'shadow'
+        }
+    },
+      toolbox: {
+          show: true,
+          feature: {
+              saveAsImage: {}
+          }
+      },
+    grid: {
+        left: '3%',
+        right: '2%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis: {
+        name: '价值（元）',
+        type: 'value',
+        boundaryGap: [0, 0.01]
+
+    },
+    yAxis: {
+        //type : 'value',
+        name:'技能',
+        type: 'category',
+        axisLabel: {
+            interval: 0,
+            rotate: 15
+        },
+        data: keys
+    },
+    series: [
+        {
+            //name: '2011年',
+            type: 'bar',
+            data: val,
+            barWidth:15,
+            itemStyle: {
+                normal: {
+                    //好，这里就是重头戏了，定义一个list，然后根据所以取得不同的值，这样就实现了，
+                    color: function (params) {
+                        // build a color map as your need.
+                        var colorList = [
+                            '#D7504B', '#C6E579', '#F4E001', '#F0805A', '#26C0C0',
+                            '#C1232B', '#B5C334', '#FCCE10', '#E87C25', '#27727B',
+                            '#FE8463', '#9BCA63', '#FAD860', '#F3A43B', '#60C0DD',
+                            '#1854fe', '#520a0b', '#FAD860', '#01b7b2', '#60C0DD'
+                        ];
+                        return colorList[params.dataIndex]
+                    },
+                    //以下为是否显示，显示位置和显示格式的设置了
+                    label: {
+                        show: true,
+                        position: 'right',
+//                             formatter: '{c}'
+                        formatter: '{c}元'
+                    }
+                }
+            }
+        }
+
+    ]
+
+};
+
+// 使用刚指定的配置项和数据显示图表。
+myChart7.setOption(option);
+}
+</script>
+{% endblock %}

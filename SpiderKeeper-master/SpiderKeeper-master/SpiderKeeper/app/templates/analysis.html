@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% block content_body %}
+          <script type="text/javascript">
+             function getData() {
+                 var text = document.getElementById("txt-analysis").value;
+               $.ajax({
+              type: "POST",
+              url: "/TextAnalyze/",
+              data: {
+                  text:text
+              },
+              dataType: "json",
+              success: function (result) {
+                  document.getElementById("result").innerHTML =result.result1;
+                  document.getElementById("title").innerHTML=result.result2;
+              }
+          });
+    }
+
+     function getContent() {
+          var text = document.getElementById("url").value;
+          $.ajax({
+              type: "POST",
+              url: "/Content/",
+              data: {
+                  text:text
+              },
+              dataType: "json",
+              success: function (result) {
+                  document.getElementById("txt-analysis").innerHTML =result.content;
+              }
+          });
+     }
+
+      function getDate(){
+          var text = document.getElementById("url").value;
+          $.ajax({
+              type: "POST",
+              url: "/date",
+              data: {
+                  url:text
+              },
+              success: function (result) {
+                   $("#myModal").modal("show");
+                   document.getElementById("content").innerHTML=result;
+              }
+          });
+      }
+   </script>
+   <div class="box" style="height: 120px;">
+    <div class="box-header">
+        <h3 class="box-title">提取正文</h3>
+        <button type="button" class="btn btn-success btn-flat" style="float: right;background-color: #00a65a;border-color:#008d4c;" onclick="getDate()">获取时间戳</button>
+        <button type="button" class="btn btn-success btn-flat" style="float:right;background-color: #00a65a;border-color:#008d4c;margin:0 20px 0 0" onclick="getContent()">提取正文</button>
+    </div>
+    <div class="box-body" style="text-align: center;font-size: 20px;">
+        <div style="margin: 0 0 27px 0;">
+            <div>
+                <i>请输入地址：</i>
+                 <input type="text"  value="" id="url" style="width: 26%;height: 34px;margin:0 0 0 35px">
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="box">
+     <div class="box-header">
+         <h3 class="box-title">提取分析</h3>
+         <button id="btn-analysis" class="btn btn-success btn-flat" style="background-color: #00a65a;border-color: #008d4c;float: right"  onclick="getData()">分析文本</button>
+    </div>
+    <div class="box-body" style="text-align: center;font-size:15px;">
+        <div style="margin: 0 0 27px 0;background-color:#f9f9f9;height:400px;">
+            <textarea id="txt-analysis" class="input" style="width: 100%;height:400px;"></textarea>
+        </div>
+    </div>
+    </div>
+    <div class="box">
+    <div class="box-header">
+        <h3 class="box-title">分析结果</h3>
+    </div>
+    <div class="box-body" style="font-size: 20px;">
+        <div style="margin: 0 0 27px 35px;height: 300px;width: 545px">
+           <div>
+               <div class="title" style="margin:0 0 0 20px;font-size:17px"><strong>新闻摘要:</strong></div>
+               <p class="result" id="title" style="color: #1127c9;font-size: 18px;width: 535px;margin:10px 0 0 12px;"></p>
+           </div>
+        </div>
+        <div style="float:right;margin:-327px 76px 27px 0;height: 300px;width:545px">
+           <div>
+                 <div class="title" style="margin:0 0 0 20px;font-size:17px"><strong>关键词提取:</strong></div>
+                 <p class="result" id="result" style="color: #c9302c;font-size: 18px;margin:10px 0 0 12px;"></p>
+           </div>
+       </div>
+    </div>
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">网页分析</h4>
+            </div>
+            <div class="modal-body">
+                <div id="myAlert" class="alert alert-success">
+{#	               <a href="#" class="close" data-dismiss="alert">&times;</a>#}
+	               <div id="content" style="font-size: 15px"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+{#                <button type="button" class="btn btn-primary">提交更改</button>#}
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+{% endblock %}
+
+
+

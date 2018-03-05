@@ -1,0 +1,207 @@
+2017-06-30 19:06:13 [scrapy.utils.log] INFO: Scrapy 1.4.0 started (bot: WuLiSpider)
+2017-06-30 19:06:14 [scrapy.utils.log] INFO: Overridden settings: {'DUPEFILTER_CLASS': 'scrapy_redis.dupefilter.RFPDupeFilter', 'NEWSPIDER_MODULE': 'WuLiSpider.spiders', 'LOG_FILE': 'logs\\myproject\\jd\\1ba469105d8411e7a1cbb46d834d3ab8.log', 'REDIRECT_ENABLED': False, 'COOKIES_ENABLED': False, 'DOWNLOAD_DELAY': 3, 'BOT_NAME': 'WuLiSpider', 'SPIDER_MODULES': ['WuLiSpider.spiders'], 'SCHEDULER': 'scrapy_redis.scheduler.Scheduler'}
+2017-06-30 19:06:14 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.logstats.LogStats',
+ 'scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.telnet.TelnetConsole']
+2017-06-30 19:06:14 [jd] INFO: Reading start URLs from redis key 'jd:start_urls' (batch size: 16, encoding: utf-8
+2017-06-30 19:06:14 [py.warnings] WARNING: e:\学习工作\学习\java语言程序设计\64λ\python\lib\site-packages\scrapy\utils\deprecate.py:156: ScrapyDeprecationWarning: `scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware` class is deprecated, use `scrapy.downloadermiddlewares.useragent.UserAgentMiddleware` instead
+  ScrapyDeprecationWarning)
+
+2017-06-30 19:06:14 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['WuLiSpider.middlewares.JSPageMiddleware',
+ 'scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'WuLiSpider.middlewares.RandomUserAgentMiddlware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2017-06-30 19:06:14 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2017-06-30 19:06:14 [scrapy.middleware] INFO: Enabled item pipelines:
+['scrapy_redis.pipelines.RedisPipeline',
+ 'WuLiSpider.pipelines.MysqlTwistedPipline']
+2017-06-30 19:06:14 [scrapy.core.engine] INFO: Spider opened
+2017-06-30 19:06:14 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2017-06-30 19:06:14 [scrapy.extensions.telnet] DEBUG: Telnet console listening on 127.0.0.1:6024
+2017-06-30 19:06:14 [jd] DEBUG: Read 1 requests from 'jd:start_urls'
+2017-06-30 19:06:14 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://book.jd.com/> (referer: None)
+2017-06-30 19:06:15 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.jd.com/> (referer: https://book.jd.com/)
+2017-06-30 19:06:16 [scrapy.core.engine] DEBUG: Crawled (302) <GET https://order.jd.com/center/list.action> (referer: https://book.jd.com/)
+2017-06-30 19:06:16 [scrapy_redis.dupefilter] DEBUG: Filtered duplicate request <GET https://order.jd.com/center/list.action> - no more duplicates will be shown (see DUPEFILTER_DEBUG to show all duplicates)
+2017-06-30 19:06:16 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://app.jd.com/> (referer: https://book.jd.com/)
+2017-06-30 19:06:16 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://search.jd.com/bookadv.html> (referer: https://book.jd.com/)
+2017-06-30 19:06:16 [scrapy.spidermiddlewares.httperror] INFO: Ignoring response <302 https://order.jd.com/center/list.action>: HTTP status code is not handled or not allowed
+2017-06-30 19:06:16 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://vip.jd.com/> (referer: https://book.jd.com/)
+2017-06-30 19:06:16 [scrapy.core.engine] DEBUG: Crawled (302) <GET https://home.jd.com/> (referer: https://book.jd.com/)
+2017-06-30 19:06:16 [scrapy.core.engine] DEBUG: Crawled (301) <GET https://e.jd.com/ebook.html> (referer: https://book.jd.com/)
+2017-06-30 19:06:16 [scrapy.spidermiddlewares.httperror] INFO: Ignoring response <302 https://home.jd.com/>: HTTP status code is not handled or not allowed
+2017-06-30 19:06:16 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://b.jd.com/> (referer: https://book.jd.com/)
+2017-06-30 19:06:16 [scrapy.spidermiddlewares.httperror] INFO: Ignoring response <301 https://e.jd.com/ebook.html>: HTTP status code is not handled or not allowed
+2017-06-30 19:06:16 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://cart.jd.com/cart.action> (referer: https://book.jd.com/)
+2017-06-30 19:06:16 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://sale.jd.com/act/SHwFjvDRBVq.html> (referer: https://book.jd.com/)
+2017-06-30 19:06:17 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://list.jd.com/list.html?cat=1713,3263,3394> (referer: https://book.jd.com/)
+2017-06-30 19:06:17 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:24 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:24 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:24 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:24 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://item.jd.com/1036188942.html> (referer: https://vip.jd.com/)
+2017-06-30 19:06:24 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://ybdp.jd.com> (referer: https://book.jd.com/)
+2017-06-30 19:06:24 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://book.jd.com> (referer: https://book.jd.com/)
+2017-06-30 19:06:24 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:27 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:27 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:27 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:27 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://item.jd.com/1977205800.html> (referer: https://vip.jd.com/)
+2017-06-30 19:06:27 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:29 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:29 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:29 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:29 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://item.jd.com/11665529777.html> (referer: https://vip.jd.com/)
+2017-06-30 19:06:29 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:34 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:34 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:34 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:34 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://item.jd.com/12180831596.html> (referer: https://vip.jd.com/)
+2017-06-30 19:06:34 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://list.jd.com/list.html?cat=1713,3263,3399> (referer: https://book.jd.com/)
+2017-06-30 19:06:34 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.jd.com/allSort.aspx> (referer: https://book.jd.com/)
+2017-06-30 19:06:34 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://sale.jd.com/act/zSPMUhO8Cm0s.html> (referer: https://book.jd.com/)
+2017-06-30 19:06:35 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:37 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:37 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:37 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:37 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://item.jd.com/11642419943.html> (referer: https://vip.jd.com/)
+2017-06-30 19:06:37 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:38 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:38 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:39 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:39 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://item.jd.com/11691348675.html> (referer: https://vip.jd.com/)
+2017-06-30 19:06:39 [scrapy.core.scraper] DEBUG: Scraped from <200 https://item.jd.com/1036188942.html>
+None
+2017-06-30 19:06:40 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://list.jd.com/list.html?cat=1713,3266,3444> (referer: https://book.jd.com/)
+2017-06-30 19:06:40 [scrapy.core.scraper] DEBUG: Scraped from <200 https://item.jd.com/1977205800.html>
+None
+2017-06-30 19:06:40 [scrapy.core.scraper] DEBUG: Scraped from <200 https://item.jd.com/11665529777.html>
+None
+2017-06-30 19:06:42 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:45 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:45 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:45 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:45 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://item.jd.com/11909250041.html> (referer: https://vip.jd.com/)
+2017-06-30 19:06:45 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:47 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:47 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:47 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:47 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://item.jd.com/12444878805.html> (referer: https://vip.jd.com/)
+2017-06-30 19:06:47 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:48 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:48 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:48 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:48 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://item.jd.com/12080203.html> (referer: https://sale.jd.com/act/SHwFjvDRBVq.html)
+2017-06-30 19:06:48 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:49 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:49 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:49 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:49 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://item.jd.com/12095565.html> (referer: https://sale.jd.com/act/SHwFjvDRBVq.html)
+2017-06-30 19:06:49 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:55 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:55 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:55 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:55 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://item.jd.com/12108161.html> (referer: https://sale.jd.com/act/SHwFjvDRBVq.html)
+2017-06-30 19:06:55 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:57 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:57 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:57 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:57 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://item.jd.com/12108949.html> (referer: https://sale.jd.com/act/SHwFjvDRBVq.html)
+2017-06-30 19:06:57 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:59 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:59 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:06:59 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:06:59 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://item.jd.com/12215326.html> (referer: https://sale.jd.com/act/SHwFjvDRBVq.html)
+2017-06-30 19:06:59 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:07:02 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:07:02 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:07:02 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:07:02 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://item.jd.com/4060241.html> (referer: https://vip.jd.com/)
+2017-06-30 19:07:02 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://sale.jd.com/act/NUnpV7sXgjKka5SD.html> (referer: https://book.jd.com/)
+2017-06-30 19:07:02 [scrapy.core.scraper] DEBUG: Scraped from <200 https://item.jd.com/12180831596.html>
+None
+2017-06-30 19:07:02 [scrapy.core.scraper] DEBUG: Scraped from <200 https://item.jd.com/11642419943.html>
+None
+2017-06-30 19:07:02 [scrapy.core.scraper] DEBUG: Scraped from <200 https://item.jd.com/11691348675.html>
+None
+2017-06-30 19:07:05 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://list.jd.com/list.html?cat=1713,3287,3797> (referer: https://book.jd.com/)
+2017-06-30 19:07:05 [scrapy.core.engine] DEBUG: Crawled (302) <GET https://sale.jd.com/act/RDUvpVZm45gL7qBG.html%20> (referer: https://book.jd.com/)
+2017-06-30 19:07:05 [scrapy.core.scraper] DEBUG: Scraped from <200 https://item.jd.com/11909250041.html>
+None
+2017-06-30 19:07:05 [scrapy.core.scraper] DEBUG: Scraped from <200 https://item.jd.com/12444878805.html>
+None
+2017-06-30 19:07:05 [scrapy.core.scraper] DEBUG: Scraped from <200 https://item.jd.com/12080203.html>
+None
+2017-06-30 19:07:05 [scrapy.core.scraper] DEBUG: Scraped from <200 https://item.jd.com/12095565.html>
+None
+2017-06-30 19:07:05 [scrapy.core.scraper] DEBUG: Scraped from <200 https://item.jd.com/12108161.html>
+None
+2017-06-30 19:07:05 [scrapy.core.scraper] DEBUG: Scraped from <200 https://item.jd.com/12108949.html>
+None
+2017-06-30 19:07:05 [scrapy.core.scraper] DEBUG: Scraped from <200 https://item.jd.com/12215326.html>
+None
+2017-06-30 19:07:05 [scrapy.core.scraper] DEBUG: Scraped from <200 https://item.jd.com/4060241.html>
+None
+2017-06-30 19:07:08 [scrapy.spidermiddlewares.httperror] INFO: Ignoring response <302 https://sale.jd.com/act/RDUvpVZm45gL7qBG.html%20>: HTTP status code is not handled or not allowed
+2017-06-30 19:07:08 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://list.jd.com/list.html?cat=1713,3287,3809> (referer: https://book.jd.com/)
+2017-06-30 19:07:08 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://book.jd.com/popbook.html> (referer: https://book.jd.com/)
+2017-06-30 19:07:08 [scrapy.core.engine] DEBUG: Crawled (302) <GET https://sale.jd.com/act/WA0cEhd2TOCQUIkb.html%20> (referer: https://book.jd.com/)
+2017-06-30 19:07:08 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://car.m.jd.com/live/introduction/index.html> (referer: https://app.jd.com/)
+2017-06-30 19:07:08 [scrapy.core.engine] DEBUG: Crawled (302) <GET https://channel.jd.com/chaoshi.html> (referer: https://search.jd.com/bookadv.html)
+2017-06-30 19:07:09 [scrapy.spidermiddlewares.httperror] INFO: Ignoring response <302 https://sale.jd.com/act/WA0cEhd2TOCQUIkb.html%20>: HTTP status code is not handled or not allowed
+2017-06-30 19:07:09 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://list.jd.com/list.html?cat=1713,3280,3664> (referer: https://book.jd.com/)
+2017-06-30 19:07:09 [scrapy.spidermiddlewares.httperror] INFO: Ignoring response <302 https://channel.jd.com/chaoshi.html>: HTTP status code is not handled or not allowed
+2017-06-30 19:07:10 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://group.jd.com/circle/20000271/20000992.htm> (referer: https://book.jd.com/)
+2017-06-30 19:07:11 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://list.jd.com/list.html?cat=1713,3289,3839> (referer: https://book.jd.com/)
+2017-06-30 19:07:14 [scrapy.extensions.logstats] INFO: Crawled 43 pages (at 43 pages/min), scraped 14 items (at 14 items/min)
+2017-06-30 19:07:15 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://list.jd.com/list.html?cat=1713,9278&go=0> (referer: https://book.jd.com/)
+2017-06-30 19:07:17 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://list.jd.com/list.html?cat=1713,9301&go=0> (referer: https://book.jd.com/)
+2017-06-30 19:07:20 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://list.jd.com/list.html?cat=1713,9351&go=0> (referer: https://book.jd.com/)
+2017-06-30 19:07:24 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://list.jd.com/list.html?cat=1713,13613&go=0> (referer: https://book.jd.com/)
+2017-06-30 19:07:31 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:07:34 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:07:34 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:07:35 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:07:35 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://item.jd.com/11829649046.html> (referer: https://b.jd.com/)
+2017-06-30 19:07:35 [scrapy.core.scraper] DEBUG: Scraped from <200 https://item.jd.com/11829649046.html>
+None
+2017-06-30 19:07:35 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:07:37 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:07:37 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:07:37 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:07:37 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://item.jd.com/1024049311.html> (referer: https://vip.jd.com/)
+2017-06-30 19:07:37 [scrapy.core.scraper] DEBUG: Scraped from <200 https://item.jd.com/1024049311.html>
+None
+2017-06-30 19:07:37 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:07:39 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:07:39 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:07:39 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:07:39 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://item.jd.com/1030217246.html> (referer: https://vip.jd.com/)
+2017-06-30 19:07:39 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:07:45 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:07:45 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:07:45 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:07:46 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://item.jd.com/1033793758.html> (referer: https://vip.jd.com/)
+2017-06-30 19:07:46 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:07:47 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:07:47 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost
+2017-06-30 19:07:48 [requests.packages.urllib3.connectionpool] DEBUG: http://localhost:9000 "POST / HTTP/1.1" 200 None
+2017-06-30 19:07:48 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://item.jd.com/1075955471.html> (referer: https://vip.jd.com/)
+2017-06-30 19:07:50 [scrapy.core.scraper] DEBUG: Scraped from <200 https://item.jd.com/1030217246.html>
+None
+2017-06-30 19:07:50 [scrapy.core.scraper] DEBUG: Scraped from <200 https://item.jd.com/1033793758.html>
+None
+2017-06-30 19:07:50 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): localhost

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/WuLiSpider.iml" filepath="$PROJECT_DIR$/.idea/WuLiSpider.iml" />
+      <module fileurl="file://E:/通用爬虫系统/WuLiSpider/.idea/wulispider.iml" filepath="E:/通用爬虫系统/WuLiSpider/.idea/wulispider.iml" />
+    </modules>
+  </component>
+</project>
